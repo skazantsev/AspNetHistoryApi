@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.nav a:focus {
+    outline: 0;
+}

@@ -1,12 +1,13 @@
-﻿@helper MenuItem(string linkText, string actionName, string controllerName)
+﻿@helper MenuItem(string jsId, string linkText, string actionName, string controllerName)
 {
-    @Ajax.ActionLink(linkText, actionName, controllerName, new AjaxOptions
+    @Ajax.ActionLink(linkText, actionName, controllerName, null, new AjaxOptions
         {
             HttpMethod = WebRequestMethods.Http.Get,
             AllowCache = false,
             InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "contentContainer"
-        })
+            UpdateTargetId = "contentContainer",
+            OnBegin = "window.tabSwitcher.navigateTo(this)"
+        }, new { id = jsId })
 }
 
 <!DOCTYPE html>
@@ -31,9 +32,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@MenuItem("Home", "Index", "Home")</li>
-                    <li>@MenuItem("About", "About", "Home")</li>
-                    <li>@MenuItem("Contact", "Contact", "Home")</li>
+                    <li>@MenuItem("homeLink", "Home", "Index", "Home")</li>
+                    <li>@MenuItem("aboutLink", "About", "About", "Home")</li>
+                    <li>@MenuItem("contactLink", "Contact", "Contact", "Home")</li>
                 </ul>
             </div>
         </div>
@@ -50,6 +51,36 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        window.tabSwitcher = {
+            navigateTo: function(tab) {
+                if (!this.poping) {
+                    var $tab = $(tab);
+                    // what if it is not a href?
+                    history.pushState({ role: 'tab', linkId: $tab.attr('id') }, null, $tab.attr('href'));
+                    // change title
+                } else {
+                    this.poping = false;
+                }   
+            },
+            poping: false
+        };
+
+        $(function () {
+            $(window).on('popstate', function (e) {
+                var state = e.originalEvent.state;
+                if (state && state.role === 'tab') {
+                    window.tabSwitcher.poping = true;
+
+                    // can we use submit instead?
+                    $('#' + state.linkId)
+                        .focus()
+                        .trigger('click');
+                }
+            });
+        });
+    </script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
