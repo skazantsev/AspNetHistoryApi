@@ -53,48 +53,14 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/common")
     <script>
-        window.tabSwitcher = {
-            popstateInProgress: false,
-            
-            navigationSucceeded: function (tab) {
-                var $tab = $(tab),
-                    $title = $('#contentContainer #partialViewTitle'),
-                    tabHref = $tab.attr('href');
-
-                if ($title.length) {
-                    document.title = $title.val();
-                }
-
-                if (!this.popstateInProgress && document.location.pathname !== tabHref) {
-                    history.pushState({ role: 'tab', linkId: $tab.attr('id') }, null, tabHref);
-                }
-            },
-
-            navigationFailed: function (tab) {
-                $(tab).blur();
-                alert('Sorry, an error occured!');
-            },
-
-            navigationCompleted: function () {
-                this.popstateInProgress = false;
-            }
-        };
-
         $(function () {
-            $(window).on('popstate', function (e) {
-                var state = e.originalEvent.state;
-                if (state && state.role === 'tab') {
-                    window.tabSwitcher.popstateInProgress = true;
-
-                    $('#' + state.linkId)
-                        .focus()
-                        .trigger('click');
-                }
+            window.tabSwitcher.init({
+                titleSelector: '#contentContainer #partialViewTitle'
             });
         });
     </script>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>
