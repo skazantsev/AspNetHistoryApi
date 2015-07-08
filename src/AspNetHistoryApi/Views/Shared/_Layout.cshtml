@@ -51,16 +51,8 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/common")
-    <script>
-        $(function () {
-            window.tabSwitcher.init({
-                titleSelector: '#contentContainer #partialViewTitle'
-            });
-        });
-    </script>
+    @Scripts.Render("~/bundles/vendor")
+    @Scripts.Render("~/bundles/app")
     @RenderSection("scripts", required: false)
 </body>
 </html>
