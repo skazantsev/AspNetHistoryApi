@@ -1,4 +1,4 @@
-﻿@helper MenuItem(string jsId, string linkText, string actionName, string controllerName)
+﻿@helper MenuItem(string linkText, string actionName, string controllerName)
 {
     @Ajax.ActionLink(linkText, actionName, controllerName, null, new AjaxOptions
         {
@@ -9,7 +9,7 @@
             OnSuccess = "window.tabSwitcher.navigationSucceeded(this)",
             OnFailure = "window.tabSwitcher.navigationFailed(this)",
             OnComplete = "window.tabSwitcher.navigationCompleted(this)"
-        }, new { id = jsId, @class = "js-tab" })
+        }, new { @class = "js-tab-link" })
 }
 
 <!DOCTYPE html>
@@ -34,9 +34,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@MenuItem("homeLink", "Home", "Index", "Home")</li>
-                    <li>@MenuItem("aboutLink", "About", "About", "Home")</li>
-                    <li>@MenuItem("contactLink", "Contact", "Contact", "Home")</li>
+                    <li>@MenuItem("Home", "Index", "Home")</li>
+                    <li>@MenuItem("About", "About", "Home")</li>
+                    <li>@MenuItem("Contact", "Contact", "Home")</li>
                 </ul>
             </div>
         </div>

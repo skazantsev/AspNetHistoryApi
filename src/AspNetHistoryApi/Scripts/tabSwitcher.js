@@ -1,7 +1,7 @@
 ﻿window.tabSwitcher = (function () {
     var popstateInProgress,
         routeTable = {},
-        options = { tabsSelector: '.js-tab', defaultRoute: '/' };
+        options = { actionLinkSelector: '.js-tab-link', defaultRoute: '/' };
 
     function init(opts) {
         _.extend(options, opts);
@@ -12,16 +12,16 @@
             if (state && state.role === 'tab') {
                 popstateInProgress = true;
 
-                var linkId = _.has(routeTable, window.location.pathname)
+                var $tabLink = _.has(routeTable, window.location.pathname)
                     ? routeTable[window.location.pathname]
                     : routeTable[options.defaultRoute];
 
 
-                $('#' + linkId).focus().trigger('click');
+                $tabLink.focus().trigger('click');
             }
         });
 
-        buildRouteTable(options.tabsSelector);
+        buildRouteTable(options.actionLinkSelector);
         initializeHistory();
     };
 
@@ -30,10 +30,10 @@
             throw new Error("Please provide a value for 'titleSelector'");
     };
 
-    function buildRouteTable(tabsSelector) {
-        _.each($(tabsSelector), function (tab) {
-            var $tab = $(tab);
-            routeTable[$tab.attr('href')] = $tab.attr('id'); // check that id exists or use another way to track links
+    function buildRouteTable(actionLinkSelector) {
+        _.each($(actionLinkSelector), function (tabLink) {
+            var $tabLink = $(tabLink);
+            routeTable[$tabLink.attr('href')] = $tabLink;
         });
     };
 
