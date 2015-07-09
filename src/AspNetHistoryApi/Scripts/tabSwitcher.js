@@ -1,6 +1,7 @@
 ﻿window.tabSwitcher = (function () {
     var popstateInProgress,
-        options = {};
+        routeTable = {},
+        options = { tabsSelector: '.js-tab', defaultRoute: '/' };
 
     function init(opts) {
         _.extend(options, opts);
@@ -11,16 +12,33 @@
             if (state && state.role === 'tab') {
                 popstateInProgress = true;
 
-                $('#' + state.linkId)
-                    .focus()
-                    .trigger('click');
+                var linkId = _.has(routeTable, window.location.pathname)
+                    ? routeTable[window.location.pathname]
+                    : routeTable[options.defaultRoute];
+
+
+                $('#' + linkId).focus().trigger('click');
             }
         });
+
+        buildRouteTable(options.tabsSelector);
+        initializeHistory();
     };
 
     function validateOptions(opts) {
         if (!opts.titleSelector)
             throw new Error("Please provide a value for 'titleSelector'");
+    };
+
+    function buildRouteTable(tabsSelector) {
+        _.each($(tabsSelector), function (tab) {
+            var $tab = $(tab);
+            routeTable[$tab.attr('href')] = $tab.attr('id'); // check that id exists or use another way to track links
+        });
+    };
+
+    function initializeHistory() {
+        history.replaceState({ role: 'tab' }, null, document.location.pathname);
     };
 
     function navigationSucceeded(tab) {
@@ -33,7 +51,7 @@
         }
 
         if (!popstateInProgress && document.location.pathname !== tabHref) {
-            history.pushState({ role: 'tab', linkId: $tab.attr('id') }, null, tabHref);
+            history.pushState({ role: 'tab' }, null, tabHref);
         }
     };
 
