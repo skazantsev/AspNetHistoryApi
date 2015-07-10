@@ -1,4 +1,6 @@
 ﻿window.tabSwitcher = (function () {
+    var location = window.history.location || window.location;
+
     var popstateInProgress,
         routeTable = {},
         options = { actionLinkSelector: '.js-tab-link', defaultRoute: '/' };
@@ -12,8 +14,8 @@
             if (state && state.role === 'tab') {
                 popstateInProgress = true;
 
-                var $tabLink = _.has(routeTable, window.location.pathname)
-                    ? routeTable[window.location.pathname]
+                var $tabLink = _.has(routeTable, location.pathname)
+                    ? routeTable[location.pathname]
                     : routeTable[options.defaultRoute];
 
 
@@ -38,25 +40,25 @@
     };
 
     function initializeHistory() {
-        history.replaceState({ role: 'tab' }, null, document.location.pathname);
+        history.replaceState({ role: 'tab' }, null, location.pathname);
     };
 
-    function navigationSucceeded(tab) {
-        var $tab = $(tab),
+    function navigationSucceeded(tabLink) {
+        var $tabLink = $(tabLink),
             $title = $(options.titleSelector),
-            tabHref = $tab.attr('href');
+            tabHref = $tabLink.attr('href');
 
         if ($title.length) {
             document.title = $title.val();
         }
 
-        if (!popstateInProgress && document.location.pathname !== tabHref) {
+        if (!popstateInProgress && location.pathname !== tabHref) {
             history.pushState({ role: 'tab' }, null, tabHref);
         }
     };
 
-    function navigationFailed(tab) {
-        $(tab).blur();
+    function navigationFailed(tabLink) {
+        $(tabLink).blur();
         alert('Sorry, an error occured!');
     };
 

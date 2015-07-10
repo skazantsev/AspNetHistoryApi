@@ -15,7 +15,8 @@ namespace AspNetHistoryApi
                 "~/Scripts/jquery.unobtrusive-ajax.js",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js",
-                "~/Scripts/underscore.js"));
+                "~/Scripts/underscore.js",
+                "~/Scripts/history.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                 "~/Scripts/tabSwitcher.js",
