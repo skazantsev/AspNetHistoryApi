@@ -7,7 +7,7 @@ namespace AspNetHistoryApi.Extensions
         public static MvcHtmlString PartialViewTitle(this HtmlHelper html, string title)
         {
             var tag = new TagBuilder("input");
-            tag.MergeAttribute("id", "partialViewTitle");
+            tag.MergeAttribute("class", "js-page-title");
             tag.MergeAttribute("type", "hidden");
             tag.MergeAttribute("value", title);
 

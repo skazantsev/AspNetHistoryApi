@@ -19,8 +19,8 @@ namespace AspNetHistoryApi
                 "~/Scripts/history.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
-                "~/Scripts/tabSwitcher.js",
-                "~/Scripts/_run.js"));
+                "~/Scripts/app/action-router.js",
+                "~/Scripts/app/_run.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",

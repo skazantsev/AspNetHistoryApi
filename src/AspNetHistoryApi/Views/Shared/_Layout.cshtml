@@ -6,10 +6,10 @@
             AllowCache = false,
             InsertionMode = InsertionMode.Replace,
             UpdateTargetId = "contentContainer",
-            OnSuccess = "window.tabSwitcher.navigationSucceeded(this)",
-            OnFailure = "window.tabSwitcher.navigationFailed(this)",
-            OnComplete = "window.tabSwitcher.navigationCompleted(this)"
-        }, new { @class = "js-tab-link" })
+            OnSuccess = "window.actionRouter.navigationSucceeded(this)",
+            OnFailure = "window.actionRouter.navigationFailed(this)",
+            OnComplete = "window.actionRouter.navigationCompleted(this)"
+        }, new { @class = "js-action-link" })
 }
 
 <!DOCTYPE html>
