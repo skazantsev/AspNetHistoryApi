@@ -13,13 +13,7 @@
             var state = e.originalEvent.state;
             if (state && state.role === 'tab') {
                 popstateInProgress = true;
-
-                var $tabLink = _.has(routeTable, location.pathname)
-                    ? routeTable[location.pathname]
-                    : routeTable[options.defaultRoute];
-
-
-                $tabLink.focus().trigger('click');
+                navigate(location.pathname);
             }
         });
 
@@ -40,7 +34,19 @@
     };
 
     function initializeHistory() {
+        if (!Modernizr.history) {
+            if(location.pathname !== options.defaultRoute) {
+                navigate(location.pathname);
+            }
+        }
         history.replaceState({ role: 'tab' }, null, location.pathname);
+    };
+
+    function navigate(path) {
+        var $tabLink = _.has(routeTable, path)
+                ? routeTable[path]
+                : routeTable[options.defaultRoute];
+        $tabLink.focus().trigger('click');
     };
 
     function navigationSucceeded(tabLink) {
